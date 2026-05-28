@@ -31,12 +31,12 @@ const TOOL_CONFIG: Record<
   string,
   { label: string; icon: React.ComponentType<{ className?: string }> }
 > = {
-  aviato_person_search: { label: "Searching people", icon: Users },
-  aviato_company_search: { label: "Searching companies", icon: Building2 },
-  aviato_person_enrich: { label: "Enriching person", icon: UserSearch },
-  aviato_company_enrich: { label: "Enriching company", icon: Building2 },
-  aviato_company_employees: { label: "Listing employees", icon: Briefcase },
-  aviato_company_acquisitions: { label: "Finding acquisitions", icon: GitMerge },
+  person_search: { label: "Searching people", icon: Users },
+  company_search: { label: "Searching companies", icon: Building2 },
+  person_enrich: { label: "Enriching person", icon: UserSearch },
+  company_enrich: { label: "Enriching company", icon: Building2 },
+  company_employees: { label: "Listing employees", icon: Briefcase },
+  company_acquisitions: { label: "Finding acquisitions", icon: GitMerge },
   web_search: { label: "Searching the web", icon: Globe },
 };
 
@@ -47,18 +47,18 @@ function getResultSummary(
   if (!output) return null;
   if (output.error) return String(output.error).slice(0, 80);
   if (
-    toolName === "aviato_person_search" ||
-    toolName === "aviato_company_search"
+    toolName === "person_search" ||
+    toolName === "company_search"
   ) {
     return `${output.returnedCount} of ${output.totalCount} results`;
   }
   if (toolName === "web_search") {
     return `${output.resultCount} results`;
   }
-  if (toolName === "aviato_company_employees") {
+  if (toolName === "company_employees") {
     return `${output.totalResults} employees`;
   }
-  if (toolName === "aviato_company_acquisitions") {
+  if (toolName === "company_acquisitions") {
     return `${output.totalResults} acquisitions`;
   }
   return null;
@@ -71,7 +71,7 @@ function getSearchDescription(
   if (toolName === "web_search") {
     return (input.objective as string) ?? null;
   }
-  if (toolName === "aviato_person_enrich" || toolName === "aviato_company_enrich") {
+  if (toolName === "person_enrich" || toolName === "company_enrich") {
     return (input.id as string) ?? (input.linkedinURL as string) ?? null;
   }
   return null;

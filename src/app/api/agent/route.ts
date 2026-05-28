@@ -36,12 +36,12 @@ export async function POST(req: Request) {
     system: systemPrompt,
     messages: modelMessages,
     tools: {
-      aviato_person_search: aviatoPersonSearch,
-      aviato_company_search: aviatoCompanySearch,
-      aviato_person_enrich: aviatoPersonEnrich,
-      aviato_company_enrich: aviatoCompanyEnrich,
-      aviato_company_employees: aviatoCompanyEmployees,
-      aviato_company_acquisitions: aviatoCompanyAcquisitions,
+      person_search: aviatoPersonSearch,
+      company_search: aviatoCompanySearch,
+      person_enrich: aviatoPersonEnrich,
+      company_enrich: aviatoCompanyEnrich,
+      company_employees: aviatoCompanyEmployees,
+      company_acquisitions: aviatoCompanyAcquisitions,
       web_search: webSearch,
       ask_user: tool({
         description:
@@ -52,12 +52,12 @@ export async function POST(req: Request) {
       }),
       add_candidates: tool({
         description:
-          "Surface candidate matches to the user in a sidebar panel with full enriched profiles. COSTS 1 AVIATO CREDIT PER CANDIDATE. You MUST use ask_user BEFORE calling this to get the user's permission on how many candidates to surface and any preferences. Never call this without explicit user approval.",
+          "Surface candidate matches to the user in a sidebar panel with full enriched profiles. COSTS 1 CREDIT PER CANDIDATE. You MUST use ask_user BEFORE calling this to get the user's permission on how many candidates to surface and any preferences. Never call this without explicit user approval.",
         inputSchema: z.object({
           candidates: z
             .array(
               z.object({
-                id: z.string().describe("Aviato person ID"),
+                id: z.string().describe("Person ID"),
                 fullName: z.string(),
                 location: z.string(),
                 linkedinUrl: z.string().nullable().describe("LinkedIn URL from search results"),

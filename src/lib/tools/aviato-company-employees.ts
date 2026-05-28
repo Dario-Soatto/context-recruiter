@@ -5,7 +5,7 @@ export const aviatoCompanyEmployees = tool({
   description:
     "List employees at a specific company. Returns names, positions, titles, departments, and seniority scores. Useful for finding people at a target company without using DSL search. Paginated. Does NOT cost enrich credits.",
   inputSchema: z.object({
-    id: z.string().optional().describe("Aviato company ID"),
+    id: z.string().optional().describe("Company ID"),
     linkedinURL: z.string().optional().describe("Company LinkedIn URL"),
     website: z.string().optional().describe("Company website URL"),
     page: z.number().optional().default(1).describe("Page number (starts at 1)"),
@@ -29,7 +29,7 @@ export const aviatoCompanyEmployees = tool({
 
     if (!response.ok) {
       const errorText = await response.text();
-      return { error: `Aviato API error ${response.status}: ${errorText}` };
+      return { error: `Employees API error ${response.status}: ${errorText}` };
     }
 
     const data = await response.json();

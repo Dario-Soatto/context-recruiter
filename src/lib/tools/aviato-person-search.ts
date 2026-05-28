@@ -3,12 +3,12 @@ import { z } from "zod";
 
 export const aviatoPersonSearch = tool({
   description:
-    "Search for people using the Aviato DSL. Use this to find candidates matching specific criteria like job titles, companies, education, skills, location, etc. The DSL supports filters with AND/OR logic, dot-notation for relational fields (e.g. experienceList.companyName, educationList.schoolName), and operators like eq, in, fts, gte, lte, noteq, textcontains. Use quantifier 'some' (default) or 'none' for one-to-many fields. Returns basic info (name, location, URLs). The filters parameter must be a JSON array (not a string).",
+    "Search for people using the search DSL. Use this to find candidates matching specific criteria like job titles, companies, education, skills, location, etc. The DSL supports filters with AND/OR logic, dot-notation for relational fields (e.g. experienceList.companyName, educationList.schoolName), and operators like eq, in, fts, gte, lte, noteq, textcontains. Use quantifier 'some' (default) or 'none' for one-to-many fields. Returns basic info (name, location, URLs). The filters parameter must be a JSON array (not a string).",
   inputSchema: z.object({
     filters: z
       .any()
       .describe(
-        'Array of filter objects for the Aviato DSL. MUST be a JSON array, not a string. Example: [{"AND": [{"country": {"operation": "eq", "value": "United States"}}, {"headline": {"operation": "fts", "value": "engineer"}}]}]'
+        'Array of filter objects for the search DSL. MUST be a JSON array, not a string. Example: [{"AND": [{"country": {"operation": "eq", "value": "United States"}}, {"headline": {"operation": "fts", "value": "engineer"}}]}]'
       ),
     limit: z
       .number()
@@ -54,7 +54,7 @@ export const aviatoPersonSearch = tool({
 
     if (!response.ok) {
       const errorText = await response.text();
-      return { error: `Aviato API error ${response.status}: ${errorText}` };
+      return { error: `Search API error ${response.status}: ${errorText}` };
     }
 
     const data = await response.json();

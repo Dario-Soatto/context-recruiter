@@ -5,7 +5,7 @@ export const aviatoCompanyAcquisitions = tool({
   description:
     "Get acquisitions made by a company. Useful for finding acquihired companies and their teams. Returns acquiree name, date, price (if available), and company details. Does NOT cost enrich credits.",
   inputSchema: z.object({
-    id: z.string().optional().describe("Aviato company ID"),
+    id: z.string().optional().describe("Company ID"),
     linkedinURL: z.string().optional().describe("Company LinkedIn URL"),
     website: z.string().optional().describe("Company website URL"),
     page: z.number().optional().default(1).describe("Page number"),
@@ -29,7 +29,7 @@ export const aviatoCompanyAcquisitions = tool({
 
     if (!response.ok) {
       const errorText = await response.text();
-      return { error: `Aviato API error ${response.status}: ${errorText}` };
+      return { error: `Acquisitions API error ${response.status}: ${errorText}` };
     }
 
     const data = await response.json();

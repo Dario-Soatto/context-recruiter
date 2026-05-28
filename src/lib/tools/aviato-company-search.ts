@@ -3,12 +3,12 @@ import { z } from "zod";
 
 export const aviatoCompanySearch = tool({
   description:
-    "Search for companies using the Aviato DSL. Use this to find companies matching criteria like industry, headcount, funding, location, description keywords, etc. Supports filters with AND/OR logic and operators like eq, in, fts, gte, lte, noteq, textcontains. The filters parameter must be a JSON array (not a string).",
+    "Search for companies using the search DSL. Use this to find companies matching criteria like industry, headcount, funding, location, description keywords, etc. Supports filters with AND/OR logic and operators like eq, in, fts, gte, lte, noteq, textcontains. The filters parameter must be a JSON array (not a string).",
   inputSchema: z.object({
     filters: z
       .any()
       .describe(
-        'Array of filter objects for the Aviato DSL. MUST be a JSON array, not a string. Example: [{"AND": [{"country": {"operation": "eq", "value": "United States"}}, {"headcount": {"operation": "gte", "value": 50}}]}]'
+        'Array of filter objects for the search DSL. MUST be a JSON array, not a string. Example: [{"AND": [{"country": {"operation": "eq", "value": "United States"}}, {"headcount": {"operation": "gte", "value": 50}}]}]'
       ),
     limit: z
       .number()
@@ -53,7 +53,7 @@ export const aviatoCompanySearch = tool({
 
     if (!response.ok) {
       const errorText = await response.text();
-      return { error: `Aviato API error ${response.status}: ${errorText}` };
+      return { error: `Search API error ${response.status}: ${errorText}` };
     }
 
     const data = await response.json();

@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const webSearch = tool({
   description:
-    "Search the web using Parallel. Use this for finding information NOT available in Aviato — such as recent acquisitions, acquihires, lists of top accelerators, company news, industry trends, or expanding a vague concept into concrete company/school names. Do NOT use this to search for individual people — use Aviato for that.",
+    "Search the web. Use this for finding information NOT available in our database — such as recent acquisitions, acquihires, lists of top accelerators, company news, industry trends, or expanding a vague concept into concrete company/school names. Do NOT use this to search for individual people — use person_search for that.",
   inputSchema: z.object({
     objective: z
       .string()

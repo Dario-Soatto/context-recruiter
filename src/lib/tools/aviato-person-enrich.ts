@@ -3,9 +3,9 @@ import { z } from "zod";
 
 export const aviatoPersonEnrich = tool({
   description:
-    "Get full profile details for a specific person from Aviato. Returns work history, education, skills, headline, about, LinkedIn metrics, and more. COSTS 1 CREDIT PER CALL — only use this after narrowing down candidates via search. You can look up by Aviato ID, LinkedIn URL, or email.",
+    "Get full profile details for a specific person. Returns work history, education, skills, headline, about, LinkedIn metrics, and more. COSTS 1 CREDIT PER CALL — only use this after narrowing down candidates via search. You can look up by person ID, LinkedIn URL, or email.",
   inputSchema: z.object({
-    id: z.string().optional().describe("Aviato person ID from search results"),
+    id: z.string().optional().describe("Person ID from search results"),
     linkedinURL: z.string().optional().describe("LinkedIn profile URL"),
     email: z.string().optional().describe("Email address"),
     preview: z
@@ -31,7 +31,7 @@ export const aviatoPersonEnrich = tool({
 
     if (!response.ok) {
       const errorText = await response.text();
-      return { error: `Aviato API error ${response.status}: ${errorText}` };
+      return { error: `Enrichment API error ${response.status}: ${errorText}` };
     }
 
     const data = await response.json();
