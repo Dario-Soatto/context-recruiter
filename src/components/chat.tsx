@@ -151,6 +151,21 @@ export function Chat({
   );
 }
 
+// Streamdown's rehype-harden plugin rejects URLs that don't parse as absolute
+// (no scheme), rendering them as plain text with a " [blocked]" suffix. The
+// LLM often emits bare-domain URLs like "linkedin.com/in/foo" — prepend
+// https:// for those so harden accepts them. Pass-through anything that already
+// has a scheme, anchor, mailto, etc.
+function normalizeUrl(url: string): string {
+  if (!url) return url;
+  if (/^[a-z][a-z0-9+.-]*:/i.test(url)) return url; // has a scheme
+  if (url.startsWith("/") || url.startsWith("#") || url.startsWith("?")) return url;
+  if (url.startsWith("//")) return `https:${url}`;
+  // Looks like a bare host (e.g. "linkedin.com/in/foo" or "x.com/handle")
+  if (/^[a-z0-9-]+(\.[a-z0-9-]+)+(\/|$)/i.test(url)) return `https://${url}`;
+  return url;
+}
+
 function AssistantMessage({
   chatId,
   message,
@@ -173,7 +188,11 @@ function AssistantMessage({
       const text = textAccumulator;
       elements.push(
         <div key={key} className="max-w-none">
-          <Streamdown mode={isLoading ? "streaming" : "static"} linkSafety={{ enabled: false }}>
+          <Streamdown
+            mode={isLoading ? "streaming" : "static"}
+            linkSafety={{ enabled: false }}
+            urlTransform={normalizeUrl}
+          >
             {text}
           </Streamdown>
         </div>
